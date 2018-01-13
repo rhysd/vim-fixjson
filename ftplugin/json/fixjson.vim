@@ -3,14 +3,15 @@ if get(b:, 'loaded_fixjson', 0) || &cp
 endif
 let b:loaded_fixjson = 1
 
-let s:var = 'fixjson_fix_on_save'
-if get(b:, s:var, get(g:, s:var, 1))
+if get(b:, 'fixjson_fix_on_save', get(g:, 'fixjson_fix_on_save', 1))
     augroup plugin-fixjson-autosave
         autocmd!
-        autocmd BufWritePre <buffer> call fixjson#format()
+        autocmd BufWritePre <buffer>
+            \   if get(b:, 'fixjson_fix_on_save', get(g:, 'fixjson_fix_on_save', 1))
+            \ |     call fixjson#format()
+            \ | endif
     augroup END
 endif
-unlet s:var
 
 command! -nargs=0 -buffer -bar FixJson call fixjson#format()
 command! -nargs=0 -buffer -bar FixJSON call fixjson#format()
