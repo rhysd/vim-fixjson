@@ -13,7 +13,7 @@ endfunction
 
 function! fixjson#npm#install() abort
     if !executable('npm')
-        throw "'npm' command is requried to install 'fixjson' command"
+        throw "'npm' command is required to install 'fixjson' command"
     endif
     echo "Installing fixjson using npm at '" . s:root_dir . "'..."
     let install = 'cd ' . shellescape(s:root_dir) . ' && npm install --no-package-lock fixjson'

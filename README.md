@@ -14,6 +14,37 @@ This plugin automatically fixes JSON file on saving the file while editing.
   - Hex numbers
   - Fixes single quotes to double quotes
 
+## Screenshots
+
+When moving a line to another line, you no longer need to care about a trailing comma:
+
+![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/modifykeys.gif)
+
+And you also don't need to care about a trailing comma of previous line when adding a new element
+to an object or an array:
+
+![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/addkey.gif)
+
+When adding a new key-value to an object, quotes of the key are fixed. And single quotes for strings
+are also fixed to double quotes:
+
+![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/keyquotes.gif)
+
+JSON string does not allow multi-line string. `\n` is required to embed multi-line string to JSON.
+fixjson automatically fixes newlines in strings. This is useful when copy&paste some string to JSON
+file:
+
+![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/newlines.gif)
+
+JSON only accepts decimal digits for numbers. fixjson automatically converts `0x` hex numbers to
+decimal numbers. You no longer need to convert hex numbers manually:
+
+![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/number.gif)
+
+And of course it pretty-prints the JSON code, with automatic indent detection:
+
+![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/prettyprint.gif)
+
 ## Installation
 
 Please use your favorite plugin manager or Vim standard `:packopt` to install.
