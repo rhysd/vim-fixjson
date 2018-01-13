@@ -1,14 +1,14 @@
 Vim integration of [fixjson][]
 ==============================
 
-This is a plugin for [fixjson][]. fixjson is a JSON fixer using (relaxed) JSON5.
+This is a Vim plugin for [fixjson][]. fixjson is a JSON fixer using (relaxed) JSON5.
 
-This plugin automatically fixes JSON file on saving the file while editing.
+This plugin automatically fixes a JSON file on saving the file while editing.
 
 - Pretty-prints JSON input
-- Fixes varios failures while humans writing JSON
+- Fixes various failures while humans writing JSON
   - Fixes trailing commas objects or arrays
-  - Fixes missing commas of elements of objects or arrays
+  - Fixes missing commas for elements of objects or arrays
   - Adds quotes to keys in objects
   - Newlines in strings
   - Hex numbers
@@ -62,7 +62,7 @@ call neobundle#add('rhysd/vim-fixjson', {
 
 ## Usage
 
-Auto fix on saving a JSON file is enabled by default. And you can also run a `fixjson` formatter by
+Auto-fix on saving a JSON file is enabled by default. And you can also run a `fixjson` formatter by
 `:FixJson` command.
 
 ## License
