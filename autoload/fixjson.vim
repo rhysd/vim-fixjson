@@ -22,6 +22,8 @@ function! fixjson#format() abort
         echomsg v:exception
         echohl None
     finally
-        call winrestview(saved)
+        if exists('l:saved')
+            call winrestview(saved)
+        endif
     endtry
 endfunction
