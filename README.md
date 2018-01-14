@@ -62,6 +62,10 @@ call neobundle#add('rhysd/vim-fixjson', {
             \ })
 ```
 
+If [fixjson](https://www.npmjs.com/package/fixjson) is not installed globally, vim-fixjson installs
+it locally to `/path/to/vim-fixjson/node_modules` using npm pacakge manager. So you don't need to
+install fixjson command manually.
+
 ## Usage
 
 Auto-fix on saving a JSON file is enabled by default. And you can also run a `fixjson` formatter by
