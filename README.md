@@ -1,11 +1,13 @@
 Vim integration of [fixjson][]
 ==============================
 
-This is a Vim plugin for [fixjson][]. fixjson is a JSON fixer using (relaxed) JSON5.
+This is a Vim plugin for [fixjson][]. fixjson is a JSON fixer/formatter using
+[(relaxed) JSON5](https://github.com/rhysd/json5).
 
 This plugin automatically fixes a JSON file on saving the file while editing.
 
-- Pretty-prints JSON input
+- Pretty-printing JSON5 input
+  - ES5 syntax is available to write up
 - Fixes various failures while humans writing JSON
   - Fixes trailing commas objects or arrays
   - Fixes missing commas for elements of objects or arrays
@@ -18,32 +20,32 @@ This plugin automatically fixes a JSON file on saving the file while editing.
 
 When moving a line to another line, you no longer need to care about a trailing comma:
 
-![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/modifykeys.gif)
+![modify keys](https://github.com/rhysd/ss/raw/master/fixjson/modifykeys.gif)
 
 And you also don't need to care about a trailing comma of previous line when adding a new element
 to an object or an array:
 
-![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/addkey.gif)
+![add key](https://github.com/rhysd/ss/raw/master/fixjson/addkey.gif)
 
 When adding a new key-value to an object, quotes of the key are fixed. And single quotes for strings
 are also fixed to double quotes:
 
-![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/keyquotes.gif)
+![key quotes](https://github.com/rhysd/ss/raw/master/fixjson/keyquotes.gif)
 
 JSON string does not allow multi-line string. `\n` is required to embed multi-line string to JSON.
 fixjson automatically fixes newlines in strings. This is useful when copy&paste some string to JSON
 file:
 
-![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/newlines.gif)
+![newlines in string](https://github.com/rhysd/ss/raw/master/fixjson/newlines.gif)
 
 JSON only accepts decimal digits for numbers. fixjson automatically converts `0x` hex numbers to
 decimal numbers. You no longer need to convert hex numbers manually:
 
-![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/number.gif)
+![hex numbebr](https://github.com/rhysd/ss/raw/master/fixjson/number.gif)
 
 And of course it pretty-prints the JSON code, with automatic indent detection:
 
-![modify keys](https://github.com/rhysd/ss/blob/master/fixjson/prettyprint.gif)
+![pretty printing](https://github.com/rhysd/ss/raw/master/fixjson/prettyprint.gif)
 
 ## Installation
 
