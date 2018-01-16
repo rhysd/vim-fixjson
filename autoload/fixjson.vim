@@ -2,6 +2,12 @@ let s:V = vital#fixjson#new()
 let s:P = s:V.import('Async.Promise')
 let s:J = s:V.import('System.Job')
 
+function! s:echoerr(msg) abort
+    echohl ErrorMsg
+    echomsg type(a:msg) == type('') ? a:msg : string(a:msg)
+    echohl None
+endfunction
+
 function! s:ensure_command() abort
     if executable('fixjson')
         return 'fixjson'
@@ -22,20 +28,12 @@ function! fixjson#format_sync() abort
         %delete _
         call setline(1, split(out, "\n"))
     catch
-        echohl ErrorMsg
-        echomsg v:exception
-        echohl None
+        call s:echoerr(v:exception)
     finally
         if exists('l:saved')
             call winrestview(saved)
         endif
     endtry
-endfunction
-
-function! s:echoerr(msg) abort
-    echohl ErrorMsg
-    echomsg type(a:msg) == type('') ? a:msg : string(a:msg)
-    echohl None
 endfunction
 
 function! s:on_stdout(data) abort dict
