@@ -4,7 +4,7 @@ Vim integration of [fixjson][]
 This is a Vim plugin for [fixjson][]. fixjson is a JSON fixer/formatter using
 [(relaxed) JSON5](https://github.com/rhysd/json5).
 
-This plugin automatically fixes a JSON file on saving the file while editing.
+This plugin automatically fixes a JSON file asynchronously on saving the file while editing.
 
 - Pretty-printing JSON5 input
   - ES5 syntax is available to write up
@@ -15,6 +15,7 @@ This plugin automatically fixes a JSON file on saving the file while editing.
   - Newlines in strings
   - Hex numbers
   - Fixes single quotes to double quotes
+- Fixing/Formatting is done asynchronously. So it does not block user input (e.g. moving cursor)
 
 ## Screenshots
 
@@ -71,6 +72,12 @@ install fixjson command manually.
 Auto-fix on saving a JSON file is enabled by default. And you can also run a `fixjson` formatter by
 `:FixJson` command.
 
+If you want to update local `fixjson` command, run `:FixJsonUpdateLocalCommand`.
+
+Asynchronous formatting is implemented with [Vital.Async.Promise][] and [Vital.System.Job][].
+It requires modern Vim or Neovim (Vim 8.0.27+ or Neovim 0.2.0+). If the requirements are not met,
+it falls back to synchronous formatting.
+
 ## License
 
 ```
@@ -95,3 +102,5 @@ THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
 [fixjson]: https://github.com/rhysd/fixjson
+[Vital.Async.Promise]: https://github.com/vim-jp/vital.vim/blob/master/autoload/vital/__vital__/Async/Promise.vim
+[Vital.System.Job]: https://github.com/lambdalisue/vital-System-Job
