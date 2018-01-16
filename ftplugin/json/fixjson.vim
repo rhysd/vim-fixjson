@@ -5,7 +5,6 @@ let b:loaded_fixjson = 1
 
 if get(b:, 'fixjson_fix_on_save', get(g:, 'fixjson_fix_on_save', 1))
     augroup plugin-fixjson-autosave
-        autocmd!
         autocmd BufWritePre <buffer>
             \   if get(b:, 'fixjson_fix_on_save', get(g:, 'fixjson_fix_on_save', 1))
             \ |     call fixjson#format()
