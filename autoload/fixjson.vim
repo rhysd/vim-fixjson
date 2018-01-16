@@ -1,3 +1,7 @@
+let s:V = vital#fixjson#new()
+let s:P = s:V.import('Async.Promise')
+let s:J = s:V.import('System.Job')
+
 function! s:ensure_command() abort
     if executable('fixjson')
         return 'fixjson'
@@ -28,12 +32,6 @@ function! fixjson#format_sync() abort
     endtry
 endfunction
 
-function! s:load_vital() abort
-    let s:V = vital#fixjson#new()
-    let s:P = s:V.import('Async.Promise')
-    let s:J = s:V.import('System.Job')
-endfunction
-
 function! s:echoerr(msg) abort
     echohl ErrorMsg
     echomsg type(a:msg) == type('') ? a:msg : string(a:msg)
@@ -51,6 +49,10 @@ function! s:on_stderr(data) abort dict
 endfunction
 
 function! s:on_exit(status) abort dict
+    if line('$') != self.line_before || (!self.modified && &l:modified)
+        call self.reject('fixjson: The file was changed before formatting finished')
+        return
+    endif
     if a:status == 0
         call self.resolve(self.stdout)
     else
@@ -66,6 +68,8 @@ function! s:start_format_job(resolve, reject) abort
             \   'stderr': [''],
             \   'resolve': a:resolve,
             \   'reject': a:reject,
+            \   'modified': &l:modified,
+            \   'line_before': line('$'),
             \   'on_stdout': function('s:on_stdout'),
             \   'on_stderr': function('s:on_stderr'),
             \   'on_exit': function('s:on_exit'),
@@ -90,8 +94,8 @@ function! s:apply_to_buf(lines) abort
 endfunction
 
 function! fixjson#format_async() abort
-    if !exists('s:V')
-        call s:load_vital()
+    if !s:P.is_available() || !s:J.is_available()
+        throw 'fixjson: Async format is not available'
     endif
     return s:P.new(function('s:start_format_job'))
             \.then(function('s:apply_to_buf'))
@@ -99,5 +103,9 @@ function! fixjson#format_async() abort
 endfunction
 
 function! fixjson#format() abort
-    call fixjson#format_sync()
+    try
+        call fixjson#format_async()
+    catch /^fixjson: Async format is not available$/
+        call fixjson#format_sync()
+    endtry
 endfunction
