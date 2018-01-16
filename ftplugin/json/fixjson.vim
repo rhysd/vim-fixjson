@@ -14,4 +14,5 @@ endif
 
 command! -nargs=0 -buffer -bar FixJson call fixjson#format()
 command! -nargs=0 -buffer -bar FixJSON call fixjson#format()
-command! -nargs=0 -buffer -bar FixJsonUpdateCommand call fixjson#npm#install()
+command! -nargs=0 -buffer -bar FixJsonSync call fixjson#format_sync()
+command! -nargs=0 -buffer -bar FixJsonUpdateLocalCommand call fixjson#npm#install()
