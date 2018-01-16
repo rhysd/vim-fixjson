@@ -5,7 +5,7 @@ function! s:ensure_command() abort
     return fixjson#npm#local_command()
 endfunction
 
-function! fixjson#format() abort
+function! fixjson#format_sync() abort
     try
         let bin = s:ensure_command()
         let file = bufname('%')
@@ -26,4 +26,8 @@ function! fixjson#format() abort
             call winrestview(saved)
         endif
     endtry
+endfunction
+
+function! fixjson#format() abort
+    call fixjson#format_sync()
 endfunction
