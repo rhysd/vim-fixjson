@@ -78,6 +78,8 @@ Asynchronous formatting is implemented with [Vital.Async.Promise][] and [Vital.S
 It requires modern Vim or Neovim (Vim 8.0.27+ or Neovim 0.2.0+). If the requirements are not met,
 it falls back to synchronous formatting.
 
+If you want to format JSON only manually with `:FixJson`, please set `g:fixjson_fix_on_save` to `0`.
+
 ## License
 
 ```
