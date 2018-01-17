@@ -54,7 +54,7 @@ function! s:on_exit(status) abort dict
     if a:status == 0
         call self.resolve(self.stdout)
     else
-        call self.reject(join(self.err, "\n"))
+        call self.reject(join(self.stderr, "\n"))
     endif
 endfunction
 
@@ -97,7 +97,7 @@ function! fixjson#format_async() abort
     endif
     return s:P.new(function('s:start_format_job'))
             \.then(function('s:apply_to_buf'))
-            \.catch({err -> s:echoerr(err)})
+            \.catch(function('s:echoerr'))
 endfunction
 
 function! fixjson#format() abort
