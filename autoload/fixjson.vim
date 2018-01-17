@@ -76,33 +76,35 @@ function! s:start_format_job(resolve, reject) abort
     call job.close()
 endfunction
 
-function! s:apply_to_buf(lines) abort
+function! s:apply_to_buf(should_save, lines) abort
     let saved = winsaveview()
     try
         %delete _
         call setline(1, a:lines)
-        if empty(&buftype)
-            noautocmd write!
-        else
-            set nomodified
+        if a:should_save
+            if empty(&buftype)
+                noautocmd write!
+            else
+                set nomodified
+            endif
         endif
     finally
         call winrestview(saved)
     endtry
 endfunction
 
-function! fixjson#format_async() abort
+function! fixjson#format_async(should_save) abort
     if !s:P.is_available() || !s:J.is_available()
         throw 'fixjson: Async format is not available'
     endif
     return s:P.new(function('s:start_format_job'))
-            \.then(function('s:apply_to_buf'))
+            \.then(function('s:apply_to_buf', [a:should_save]))
             \.catch(function('s:echoerr'))
 endfunction
 
-function! fixjson#format() abort
+function! fixjson#format(should_save) abort
     try
-        call fixjson#format_async()
+        call fixjson#format_async(a:should_save)
     catch /^fixjson: Async format is not available$/
         call fixjson#format_sync()
     endtry
