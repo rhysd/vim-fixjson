@@ -15,6 +15,16 @@ function! s:ensure_command() abort
     return fixjson#npm#local_command()
 endfunction
 
+function! s:replace_buf(lines) abort
+    let saved = winsaveview()
+    try
+        silent %delete _
+        call setline(1, a:lines)
+    finally
+        call winrestview(saved)
+    endtry
+endfunction
+
 function! fixjson#format_sync() abort
     try
         let bin = s:ensure_command()
@@ -24,15 +34,9 @@ function! fixjson#format_sync() abort
         if v:shell_error
             throw 'Failed to format. Command failed: ' . out
         endif
-        let saved = winsaveview()
-        %delete _
-        call setline(1, split(out, "\n"))
+        call s:replace_buf(split(out, "\n"))
     catch
         call s:echoerr(v:exception)
-    finally
-        if exists('l:saved')
-            call winrestview(saved)
-        endif
     endtry
 endfunction
 
@@ -77,20 +81,15 @@ function! s:start_format_job(resolve, reject) abort
 endfunction
 
 function! s:apply_to_buf(should_save, lines) abort
-    let saved = winsaveview()
-    try
-        %delete _
-        call setline(1, a:lines)
-        if a:should_save
-            if empty(&buftype)
-                noautocmd write!
-            else
-                set nomodified
-            endif
-        endif
-    finally
-        call winrestview(saved)
-    endtry
+    call s:replace_buf(a:lines)
+    if !a:should_save
+        return
+    endif
+    if &buftype ==# ''
+        noautocmd write!
+    else
+        set nomodified
+    endif
 endfunction
 
 function! fixjson#format_async(should_save) abort
