@@ -25,14 +25,21 @@ function! s:replace_buf(lines) abort
     endtry
 endfunction
 
+function! s:build_command() abort
+    let cmd = [s:ensure_command()]
+    if &buftype ==# ''
+        let file = bufname('%')
+        let cmd += ['--stdin-filename', file]
+    endif
+    return cmd
+endfunction
+
 function! fixjson#format_sync() abort
     try
-        let bin = s:ensure_command()
-        let file = bufname('%')
-        let cmd = printf('%s --stdin-filename %s', shellescape(bin), shellescape(file))
+        let cmd = join(map(s:build_command(), 'shellescape(v:val)'), ' ')
         let out = system(cmd, getline(1, '$'))
         if v:shell_error
-            throw 'Failed to format. Command failed: ' . out
+            throw printf("Failed to format. Command '%s' failed: %s", cmd, out)
         endif
         call s:replace_buf(split(out, "\n"))
     catch
@@ -63,9 +70,8 @@ function! s:on_exit(status) abort dict
 endfunction
 
 function! s:start_format_job(resolve, reject) abort
-    let cmd = s:ensure_command()
     let stdin = getline(1, '$')
-    let job = s:J.start([cmd], {
+    let job = s:J.start(s:build_command(), {
             \   'stdout': [''],
             \   'stderr': [''],
             \   'resolve': a:resolve,
