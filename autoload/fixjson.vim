@@ -9,6 +9,12 @@ function! s:echoerr(msg) abort
 endfunction
 
 function! s:ensure_command() abort
+    if exists('g:fixjson_executable')
+        if !executable(g:fixjson_executable)
+            throw printf("g:fixjson_executable is set to '%s' but it's not executable", g:fixjson_executable)
+        endif
+        return g:fixjson_executable
+    endif
     if executable('fixjson')
         return 'fixjson'
     endif
