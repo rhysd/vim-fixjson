@@ -1,6 +1,7 @@
 let s:V = vital#fixjson#new()
 let s:P = s:V.import('Async.Promise')
 let s:J = s:V.import('System.Job')
+let s:IS_WINDOWS = has('win32') || has('win64')
 
 function! s:echoerr(msg) abort
     echohl ErrorMsg
@@ -114,6 +115,11 @@ function! fixjson#format_async(should_save) abort
 endfunction
 
 function! fixjson#format(should_save) abort
+    if s:IS_WINDOWS
+        call fixjson#format_sync()
+        return
+    endif
+
     try
         call fixjson#format_async(a:should_save)
     catch /^fixjson: Async format is not available$/
