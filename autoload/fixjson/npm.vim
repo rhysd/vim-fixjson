@@ -7,6 +7,12 @@ function! fixjson#npm#local_command() abort
     if !filereadable(s:cmd_path)
         call fixjson#npm#install()
     endif
+    " if s:is_windows
+        " XXX:
+        " On Windows, specifying an absolute path to executable does not work.
+        " So convert the absolute path to relative path.
+    "     return fnamemodify(s:cmd_path, ':.')
+    " endif
     return s:cmd_path
 endfunction
 

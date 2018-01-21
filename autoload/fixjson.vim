@@ -2,6 +2,8 @@ let s:V = vital#fixjson#new()
 let s:P = s:V.import('Async.Promise')
 let s:J = s:V.import('System.Job')
 
+let s:is_windows = has('win32') || has('win64')
+
 function! s:echoerr(msg) abort
     echohl ErrorMsg
     echomsg type(a:msg) == type('') ? a:msg : string(a:msg)
@@ -33,6 +35,9 @@ endfunction
 
 function! s:build_command() abort
     let cmd = [s:ensure_command()]
+    if s:is_windows
+        let cmd = ['cmd', '/c'] + cmd
+    endif
     if &buftype ==# ''
         let file = bufname('%')
         let cmd += ['--stdin-filename', file]
