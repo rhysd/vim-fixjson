@@ -74,6 +74,11 @@ function! s:on_exit(status) abort dict
         return
     endif
     if a:status == 0
+        " fixjson adds a newline at the end of output. But we don't need it
+        " because vim cares about it. So remove the last newline.
+        if len(self.stdout) > 0 && self.stdout[-1] ==# ''
+            let self.stdout = self.stdout[:-2]
+        endif
         call self.resolve(self.stdout)
     else
         call self.reject(join(self.stderr, "\n"))
