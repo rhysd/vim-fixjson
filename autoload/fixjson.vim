@@ -34,7 +34,8 @@ function! s:replace_buf(lines) abort
 endfunction
 
 function! s:build_command() abort
-    let cmd = [s:ensure_command()]
+    let indent_size = exists('g:fixjson_indent_size') ? g:fixjson_indent_size : 2
+    let cmd = [s:ensure_command(), '-i', indent_size]
     if s:is_windows
         let cmd = ['cmd', '/c'] + cmd
     endif

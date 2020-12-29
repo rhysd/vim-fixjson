@@ -80,6 +80,8 @@ it falls back to synchronous formatting.
 
 If you want to format JSON only manually with `:FixJson`, please set `g:fixjson_fix_on_save` to `0`.
 
+If you want set indent size, please set `g:fixjson_indent_size`, default value
+is 2
 ## License
 
 ```
