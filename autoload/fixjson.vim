@@ -38,6 +38,9 @@ function! s:build_command() abort
     if s:is_windows
         let cmd = ['cmd', '/c'] + cmd
     endif
+    if exists('g:fixjson_indent_size') && type(g:fixjson_indent_size) == type(0)
+        let cmd += ['-i', g:fixjson_indent_size]
+    endif
     if &buftype ==# ''
         let file = bufname('%')
         let cmd += ['--stdin-filename', file]
